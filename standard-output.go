@@ -15,7 +15,11 @@ func NewStandardOutput(file *os.File) OutputWriter {
 	}
 
 	defaultOutputSettings := parseVerbosityLevel(os.Getenv("LOG_LEVEL"))
-	writer.Settings = parsePackageSettings(os.Getenv("LOG"), defaultOutputSettings)
+	logEnv := "*"
+	if os.Getenv("LOG") != "" {
+		logEnv = os.Getenv("LOG")
+	}
+	writer.Settings = parsePackageSettings(logEnv, defaultOutputSettings)
 
 	return writer
 }
