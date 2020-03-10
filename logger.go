@@ -31,19 +31,19 @@ func (logger *Logger) Log(level, message string, args []interface{}) {
 }
 
 // Info prints log information to the screen that is informational in nature.
-func (l *Logger) Info(msg string, v ...interface{}) {
-	l.Log("INFO", msg, v)
+func (logger *Logger) Info(msg string, v ...interface{}) {
+	logger.Log("INFO", msg, v)
 }
 
 // Error logs an error message.
-func (l *Logger) Error(msg string, v ...interface{}) {
-	l.Log("ERROR", msg, v)
+func (logger *Logger) Error(msg string, v ...interface{}) {
+	logger.Log("ERROR", msg, v)
 }
 
 // Timer returns a timer sub-logger.
-func (l *Logger) Timer() *Log {
+func (logger *Logger) Timer() *Log {
 	return &Log{
-		Package: l.Name,
+		Package: logger.Name,
 		Level:   "TIMER",
 		Time:    Now(),
 	}

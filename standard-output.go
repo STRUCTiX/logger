@@ -29,14 +29,14 @@ type StandardWriter struct {
 
 func (standardWriter StandardWriter) Init() {}
 
-func (sw StandardWriter) Write(log *Log) {
-	if sw.IsEnabled(log.Package, log.Level) {
-		fmt.Fprintln(sw.Target, sw.Format(log))
+func (standardWriter StandardWriter) Write(log *Log) {
+	if standardWriter.IsEnabled(log.Package, log.Level) {
+		fmt.Fprintln(standardWriter.Target, standardWriter.Format(log))
 	}
 }
 
-func (sw *StandardWriter) IsEnabled(logger, level string) bool {
-	settings := sw.LoggerSettings(logger)
+func (standardWriter *StandardWriter) IsEnabled(logger, level string) bool {
+	settings := standardWriter.LoggerSettings(logger)
 
 	if level == "INFO" {
 		return settings.Info
@@ -53,28 +53,28 @@ func (sw *StandardWriter) IsEnabled(logger, level string) bool {
 	return false
 }
 
-func (sw *StandardWriter) LoggerSettings(p string) *OutputSettings {
-	if settings, ok := sw.Settings[p]; ok {
+func (standardWriter *StandardWriter) LoggerSettings(p string) *OutputSettings {
+	if settings, ok := standardWriter.Settings[p]; ok {
 		return settings
 	}
 
 	// If there is a "*" (Select all) setting, return that
-	if settings, ok := sw.Settings["*"]; ok {
+	if settings, ok := standardWriter.Settings["*"]; ok {
 		return settings
 	}
 
 	return muted
 }
 
-func (sw *StandardWriter) Format(log *Log) string {
-	if sw.ColorsEnabled {
-		return sw.PrettyFormat(log)
+func (standardWriter *StandardWriter) Format(log *Log) string {
+	if standardWriter.ColorsEnabled {
+		return standardWriter.PrettyFormat(log)
 	} else {
-		return sw.JSONFormat(log)
+		return standardWriter.JSONFormat(log)
 	}
 }
 
-func (sw *StandardWriter) JSONFormat(log *Log) string {
+func (standardWriter *StandardWriter) JSONFormat(log *Log) string {
 	str, err := json.Marshal(log)
 	if err != nil {
 		return fmt.Sprintf(`{ "logger-error": "%v" }`, err)
@@ -83,15 +83,15 @@ func (sw *StandardWriter) JSONFormat(log *Log) string {
 	return string(str)
 }
 
-func (sw *StandardWriter) PrettyFormat(log *Log) string {
+func (standardWriter *StandardWriter) PrettyFormat(log *Log) string {
 	return fmt.Sprintf("%s %s %s%s",
 		time.Now().Format("15:04:05.000"),
-		sw.PrettyLabel(log),
+		standardWriter.PrettyLabel(log),
 		log.Message,
-		sw.PrettyAttrs(log.Attrs))
+		standardWriter.PrettyAttrs(log.Attrs))
 }
 
-func (sw *StandardWriter) PrettyAttrs(attrs *Attrs) string {
+func (standardWriter *StandardWriter) PrettyAttrs(attrs *Attrs) string {
 	if attrs == nil {
 		return ""
 	}
@@ -104,15 +104,15 @@ func (sw *StandardWriter) PrettyAttrs(attrs *Attrs) string {
 	return result
 }
 
-func (sw *StandardWriter) PrettyLabel(log *Log) string {
+func (standardWriter *StandardWriter) PrettyLabel(log *Log) string {
 	return fmt.Sprintf("%s%s%s:%s",
 		colorFor(log.Package),
 		log.Package,
-		sw.PrettyLabelExt(log),
+		standardWriter.PrettyLabelExt(log),
 		reset)
 }
 
-func (sw *StandardWriter) PrettyLabelExt(log *Log) string {
+func (standardWriter *StandardWriter) PrettyLabelExt(log *Log) string {
 	if log.Level == "ERROR" {
 		return fmt.Sprintf("(%s!%s)", red, colorFor(log.Package))
 	}
