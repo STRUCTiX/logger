@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/azer/logger"
+	"github.com/STRUCTiX/logger"
 	"time"
 )
 

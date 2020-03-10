@@ -3,7 +3,6 @@ package logger
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/azer/is-terminal"
 	"os"
 	"strings"
 	"time"
@@ -11,7 +10,7 @@ import (
 
 func NewStandardOutput(file *os.File) OutputWriter {
 	var writer = StandardWriter{
-		ColorsEnabled: isterminal.IsTerminal(int(file.Fd())),
+		ColorsEnabled: true,
 		Target:        file,
 	}
 

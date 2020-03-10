@@ -2,7 +2,7 @@ package main
 
 import (
 	"errors"
-	"github.com/azer/logger"
+	"github.com/STRUCTiX/logger"
 	"time"
 )
 

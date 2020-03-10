@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/azer/logger"
 	"errors"
+	"github.com/STRUCTiX/logger"
 	"time"
 )
 
